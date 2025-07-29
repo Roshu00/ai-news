@@ -1,7 +1,12 @@
-import type { NextConfig } from "next";
+const removeImports = require("next-remove-imports")();
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+module.exports = removeImports({
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
+  },
+});
