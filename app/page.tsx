@@ -1,14 +1,19 @@
 import Hero from "@/components/hero";
-import MdInput from "@/components/md-input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { UserAvatar } from "@/components/user-avatar";
 import { prisma } from "@/db/prisma";
+import { ArticleStatus } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function Home() {
   const articles = await prisma.article.findMany({
+    where: {
+      status: {
+        not: ArticleStatus.DRAFT,
+      },
+    },
     include: {
       category: true,
       user: true,

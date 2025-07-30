@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar/navbar";
+import { Toaster } from "sonner";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className={`${geistSans.className} antialiased`}>
         <Navbar />
         {children}
+        <Toaster />
       </body>
     </html>
   );

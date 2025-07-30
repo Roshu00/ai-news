@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {

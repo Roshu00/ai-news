@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { UserAvatar } from "@/components/user-avatar";
 import { prisma } from "@/db/prisma";
 import { auth } from "@/lib/auth";
+import { ArticleStatus } from "@prisma/client";
 import { ListX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +42,11 @@ const CreatorPage = async () => {
                 </div>
               </CardHeader>
               <CardContent className="pt-4 pb-5">
-                <Badge>{article.category?.name}</Badge>
+                <Badge>
+                  {article.status === ArticleStatus.DRAFT
+                    ? "DRAFT"
+                    : article.category?.name}
+                </Badge>
 
                 <h3 className="mt-4 text-[1.35rem] font-semibold tracking-tight">
                   {article.title}

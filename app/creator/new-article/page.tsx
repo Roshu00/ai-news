@@ -1,12 +1,30 @@
 import React from "react";
-import { NewArticleForm } from "./new-article-form";
+import { CreateArticle } from "./create-article";
+import { prisma } from "@/db/prisma";
+import { ArticleContextProvider } from "./article-context";
 
-const CreateArticlePage = () => {
+const CreateArticlePage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const { slug } = await params;
+  const article = await prisma.article.findFirst({
+    where: {
+      slug,
+    },
+    include: {
+      category: true,
+      user: true,
+    },
+  });
+
+  if (!article) return null;
+
   return (
-    <div className="max-w-screen-xl mx-auto py-16 px-6 xl:px-0">
-      <h1 className="text-2xl font-bold">Napravi Članak</h1>
-      <NewArticleForm />
-    </div>
+    <ArticleContextProvider currentArticle={undefined}>
+      <CreateArticle />
+    </ArticleContextProvider>
   );
 };
 

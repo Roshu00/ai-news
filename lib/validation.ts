@@ -31,3 +31,21 @@ export const createArticleSchema = z.object({
   keywords: z.array(z.string(), "Morate uneti makar jednu ključnu reč"),
   categoryId: z.uuid({ message: "ID kategorije mora biti validan UUID." }),
 });
+
+export const createArticleStepOneSchema = z.object({
+  title: z.string().min(1, "Naslov je obavezno polje."),
+});
+
+export const createArticleStepTwoSchema = z.object({
+  description: z.string().min(1, "Opis je obavezno polje."),
+  categoryId: z.string().min(1, "Kategorija je obavezno polje."),
+});
+
+export const createArticleStepThreeSchema = z.object({
+  content: z.string().min(1, "Sadrzaj je obavezno polje."),
+});
+export const createArticleStepFourthSchema = z.object({
+  seoTitle: z.string().min(1, "Sadrzaj je obavezno polje."),
+  seoDescription: z.string().min(1, "Sadrzaj je obavezno polje."),
+  keywords: z.array(z.string()).min(1),
+});

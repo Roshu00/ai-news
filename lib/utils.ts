@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { error } from "console";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -39,3 +40,23 @@ export function getAvatarInitials(name: string): string {
   // Dve reči — uzmi prvo slovo prve i prvo slovo druge
   return (words[0][0] + words[1][0]).toUpperCase();
 }
+
+export const formatResponse = <T>(returnData: {
+  success: boolean;
+  message: string;
+  data?: T;
+}) => returnData;
+
+export const formatSuccess = <T>(message: string, data?: T) =>
+  formatResponse({
+    success: true,
+    message,
+    data,
+  });
+
+export const formatError = <T = null>(err: any, data?: T) =>
+  formatResponse({
+    success: false,
+    message: formatErrors(err),
+    data,
+  });
