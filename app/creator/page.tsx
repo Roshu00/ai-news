@@ -34,7 +34,7 @@ const CreatorPage = async () => {
               <CardHeader className="p-2">
                 <div className="aspect-video bg-muted rounded-lg w-full relative overflow-hidden">
                   <Image
-                    src={"/api/generate-image/" + article.slug}
+                    src={"/api/og/" + article.slug}
                     alt={article.title}
                     fill
                     className="object-cover"
