@@ -34,7 +34,7 @@ export async function GET(
               key: "title",
               style: {
                 fontSize: 60,
-                fontWeight: "bold",
+                fontWeight: 700,
                 color: "black",
                 textAlign: "center",
               },
