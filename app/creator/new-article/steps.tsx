@@ -9,12 +9,12 @@ export const Steps = ({
   currentStep: number;
 }) => {
   return (
-    <div className="flex flex-between flex-col md:flex-row space-x-2 space-y-2 mb-10 items-center">
+    <div className="flex flex-between flex-col md:flex-row space-x-2 space-y-2 mb-10 items-center w-full">
       {steps.map((step, index) => (
         <React.Fragment key={index}>
           <div
             className={cn(
-              "p-2 w-56 rounded-full text-center text-sm",
+              "p-2 rounded-full text-center text-sm flex-1",
               index === currentStep ? "bg-secondary" : ""
             )}
           >

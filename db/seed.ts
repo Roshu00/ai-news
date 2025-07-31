@@ -27,7 +27,6 @@ async function main() {
         slug: "nova-odluka-vlade",
         description:
           "Vlada je donela novu odluku o finansiranju lokalnih samouprava.",
-        author: "Tanjug",
         language: "sr",
         publishedAt: new Date(),
         categoryId: politika?.id,
@@ -36,8 +35,6 @@ async function main() {
         seoTitle: "Odluka Vlade Srbije - detalji",
         seoDescription:
           "Sve o novoj odluci koja će promeniti budžetsku politiku.",
-        source: "N1 Info",
-        sourceUrl: "https://n1info.rs/vesti/nova-odluka-vlade",
         imageUrl: "https://source.unsplash.com/800x400/?politics",
         content: `
 Vlada Republike Srbije je donela **važnu odluku** o finansiranju lokalnih samouprava.
@@ -55,7 +52,6 @@ Za detalje posetite [N1 Info](https://n1info.rs/vesti/nova-odluka-vlade).
         title: "Pobeda Srbije nad Grčkom",
         slug: "srbija-pobedila-grcku",
         description: "Srbija je slavila rezultatom 3:1.",
-        author: "Sport Klub",
         language: "sr",
         publishedAt: new Date(),
         categoryId: sport?.id,
@@ -64,8 +60,6 @@ Za detalje posetite [N1 Info](https://n1info.rs/vesti/nova-odluka-vlade).
         seoTitle: "Srbija pobedila Grčku",
         seoDescription:
           "Reprezentacija Srbije nadigrala Grčku u prijateljskom meču.",
-        source: "SportNet",
-        sourceUrl: "https://sportnet.rs/srbija-grcka-3-1",
         imageUrl: "https://source.unsplash.com/800x400/?soccer",
         content: `
 Srbija je ostvarila ubedljivu pobedu protiv Grčke rezultatom **3:1**.
@@ -83,7 +77,6 @@ Više informacija na [SportNet](https://sportnet.rs/srbija-grcka-3-1).
         title: "Apple najavio novi iPhone",
         slug: "iphone-15-pro",
         description: "iPhone 15 Pro donosi niz inovacija.",
-        author: "The Verge",
         language: "en",
         publishedAt: new Date(),
         categoryId: tech?.id,
@@ -91,8 +84,6 @@ Više informacija na [SportNet](https://sportnet.rs/srbija-grcka-3-1).
         readingTime: 4,
         seoTitle: "iPhone 15 Pro najava",
         seoDescription: "Apple otkriva sve novine u iPhone 15 Pro modelu.",
-        source: "Apple Newsroom",
-        sourceUrl: "https://apple.com/news/iphone15pro",
         imageUrl: "https://source.unsplash.com/800x400/?iphone",
         content: `
 Apple je predstavio novi **iPhone 15 Pro** sa brojnim unapređenjima.

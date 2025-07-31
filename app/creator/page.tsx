@@ -30,11 +30,11 @@ const CreatorPage = async () => {
       <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {articles.map((article) => (
           <Link href={`/article/${article.slug}`} key={article.id}>
-            <Card className="shadow-none">
+            <Card className="shadow-lg">
               <CardHeader className="p-2">
                 <div className="aspect-video bg-muted rounded-lg w-full relative overflow-hidden">
                   <Image
-                    src={"/placeholder.webp"}
+                    src={"/api/generate-image/" + article.slug}
                     alt={article.title}
                     fill
                     className="object-cover"
@@ -51,6 +51,8 @@ const CreatorPage = async () => {
                 <h3 className="mt-4 text-[1.35rem] font-semibold tracking-tight">
                   {article.title}
                 </h3>
+                <p>{article.description}</p>
+
                 <div className="mt-6 flex items-center justify-between">
                   {article.user && (
                     <div className="flex items-center gap-2">

@@ -1,5 +1,5 @@
 "use client";
-import { updateArticle } from "@/actions/article.actions";
+import { publishArticle, updateArticle } from "@/actions/article.actions";
 import { FormInput } from "@/components/inputs/classic-input";
 import { FormTextarea } from "@/components/inputs/classic-textarea";
 import { Button } from "@/components/ui/button";
@@ -11,11 +11,13 @@ import { toast } from "sonner";
 import z from "zod";
 import { KeywordInput } from "./keyword-input";
 import { useArticleContext } from "./article-context";
+import { useRouter } from "next/navigation";
 
 // This step is initial article creation
 // After this step is completed the article is created in DB as draft!
 
 export const StepFour = () => {
+  const router = useRouter();
   const { article, setArticle } = useArticleContext();
   const form = useForm<z.infer<typeof createArticleStepFourthSchema>>({
     resolver: zodResolver(createArticleStepFourthSchema),
@@ -33,6 +35,8 @@ export const StepFour = () => {
     if (res.success) {
       toast.success(res.message);
       setArticle(res.data!);
+      await publishArticle(res.data!.slug);
+      router.push(`/article/${res.data!.slug}`);
     } else {
       toast.error(res.message);
     }

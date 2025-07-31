@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createArticleSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import MDEditor from "@uiw/react-md-editor";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { KeywordInput } from "./keyword-input";
@@ -39,8 +38,6 @@ export const NewArticleForm = () => {
   const { control, handleSubmit } = form;
 
   const submit = async (data: z.infer<typeof createArticleSchema>) => {
-    console.log(data);
-    console.log("CREATE");
     await createArticle(data);
   };
 
@@ -113,7 +110,7 @@ export const NewArticleForm = () => {
             <FormItem className="col-span-2">
               <FormLabel>Sadržaj</FormLabel>
               <FormControl>
-                <MDEditor className="w-full" {...field} />
+                <Input className="w-full" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

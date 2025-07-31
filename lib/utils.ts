@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx";
-import { error } from "console";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -7,7 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatErrors(error: any) {
-  console.log(error.name, error.code);
   if (error.name === "ZodError") {
     // Handle zod error
     const fieldErrors = Object.keys(error.errors).map(

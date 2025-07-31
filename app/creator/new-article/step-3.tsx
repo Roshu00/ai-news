@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/form";
 import { createArticleStepThreeSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import MDEditor from "@uiw/react-md-editor";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { useArticleContext } from "./article-context";
+import { Input } from "@/components/ui/input";
 
 // This step is article content
 
@@ -52,7 +52,7 @@ export const StepThree = () => {
             <FormItem className="col-span-2">
               <FormLabel>Sadržaj</FormLabel>
               <FormControl>
-                <MDEditor className="w-full" {...field} />
+                <Input className="w-full" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

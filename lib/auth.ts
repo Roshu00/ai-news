@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { prisma } from "@/db/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compareSync } from "bcrypt-ts";
 import NextAuth, { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { NextResponse } from "next/server";
-import { prisma } from "@/db/prisma";
 
 export const config = {
   pages: {
@@ -40,7 +39,6 @@ export const config = {
             credentials.password as string,
             user.password
           );
-          console.log(isMatch);
           if (isMatch) {
             return {
               id: user.id,
@@ -98,7 +96,6 @@ export const config = {
       const { pathname } = request.nextUrl;
 
       if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
-      console.log(auth);
       if (auth?.role === "creator" && pathname === "/creator") return true;
 
       return true;

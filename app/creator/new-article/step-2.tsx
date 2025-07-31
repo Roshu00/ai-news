@@ -6,7 +6,6 @@ import { FormComboboxSelect } from "@/components/inputs/combobox-select";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { createArticleStepTwoSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,7 +15,7 @@ import { useArticleContext } from "./article-context";
 
 // This step is initial article basic information
 
-export const StepTwo = ({}: {}) => {
+export const StepTwo = () => {
   const { article, setArticle, nextStep } = useArticleContext();
   const form = useForm<z.infer<typeof createArticleStepTwoSchema>>({
     resolver: zodResolver(createArticleStepTwoSchema),

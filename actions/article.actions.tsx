@@ -18,6 +18,7 @@ import {
   formatResponse,
   formatSuccess,
 } from "@/lib/utils";
+import { ArticleStatus } from "@prisma/client";
 
 export const createArticle = async (
   data: z.infer<typeof createArticleSchema>
@@ -33,6 +34,25 @@ export const createArticle = async (
   return newArticle;
 };
 
+export const getArticleBySlug = async (slug: string) => {
+  try {
+    const user = await requireUser();
+    const article = await prisma.article.findFirst({
+      where: {
+        userId: user.id,
+        slug,
+      },
+      include: {
+        user: true,
+        category: true,
+      },
+    });
+    return formatSuccess("Article found!", article);
+  } catch (err) {
+    return formatError(err, null);
+  }
+};
+
 export const createArticleStepOne = async (
   data: z.infer<typeof createArticleStepOneSchema>
 ) => {
@@ -43,6 +63,10 @@ export const createArticleStepOne = async (
         slug: slugify(data.title),
         ...data,
         userId: user.id,
+      },
+      include: {
+        user: true,
+        category: true,
       },
     });
 
@@ -60,7 +84,6 @@ export const updateArticle = async (
     | z.infer<typeof createArticleStepFourthSchema>
     | z.infer<typeof createArticleStepThreeSchema>
 ) => {
-  console.log(data);
   try {
     const user = await requireUser();
     const article = await prisma.article.update({
@@ -71,10 +94,48 @@ export const updateArticle = async (
       data: {
         ...data,
       },
+      include: {
+        user: true,
+        category: true,
+      },
     });
-    console.log(article);
     return formatSuccess("Article is updated", article);
   } catch (err) {
     return formatError(err);
+  }
+};
+
+export const publishArticle = async (slug: string) => {
+  try {
+    const user = await requireUser();
+    const article = await prisma.article.update({
+      where: {
+        userId: user.id,
+        slug,
+      },
+      data: {
+        status: ArticleStatus.PUBLIC,
+      },
+    });
+    return formatSuccess("Article is published", article);
+  } catch (err) {
+    return formatError(err);
+  }
+};
+
+export const getPublicArticle = async (slug: string) => {
+  try {
+    const article = await prisma.article.findFirst({
+      where: {
+        slug,
+      },
+      include: {
+        user: true,
+        category: true,
+      },
+    });
+    return formatSuccess("Article found!", article);
+  } catch (err) {
+    return formatError(err, null);
   }
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { prisma } from "@/db/prisma";
 import { CreateArticle } from "../../new-article/create-article";
 import { ArticleContextProvider } from "../../new-article/article-context";
+import { getArticleBySlug } from "@/actions/article.actions";
 
 const CreateArticlePage = async ({
   params,
@@ -9,33 +10,10 @@ const CreateArticlePage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const article = await prisma.article.findFirst({
-    where: {
-      slug,
-    },
-    include: {
-      category: true,
-      user: true,
-    },
-  });
+  const article = await getArticleBySlug(slug);
 
   return (
-    <ArticleContextProvider
-      currentArticle={
-        article
-          ? {
-              slug: article.slug,
-              content: article.content,
-              title: article.title,
-              description: article.description,
-              seoDescription: article.seoDescription,
-              seoTitle: article.seoTitle,
-              keywords: article.keywords,
-              categoryId: article.categoryId,
-            }
-          : undefined
-      }
-    >
+    <ArticleContextProvider currentArticle={article.data}>
       <CreateArticle />
     </ArticleContextProvider>
   );

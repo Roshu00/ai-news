@@ -1,12 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Control, useFieldArray } from "react-hook-form";
@@ -19,7 +15,7 @@ export const KeywordInput = ({
   values: string[];
 }) => {
   const [inputValue, setInputValue] = useState("");
-  const { append, remove } = useFieldArray({
+  const { append } = useFieldArray({
     control,
     name: "keywords" as never,
   });

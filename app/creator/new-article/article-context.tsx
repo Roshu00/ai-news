@@ -1,22 +1,14 @@
 "use client";
+import { getArticleBySlug } from "@/actions/article.actions";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-export type DataType = {
-  title: string;
-  description?: string | null;
-  categoryId?: string | null;
-  content: string | null;
-  slug: string;
-  seoTitle: string | null;
-  seoDescription: string | null;
-  keywords: string[];
-};
+export type DataType = Awaited<ReturnType<typeof getArticleBySlug>>["data"];
 
 type ArticleContextType = {
-  article: DataType | undefined;
+  article: DataType | undefined | null;
   setStep: React.Dispatch<React.SetStateAction<number>>;
-  setArticle: React.Dispatch<React.SetStateAction<DataType | undefined>>;
+  setArticle: React.Dispatch<React.SetStateAction<DataType | undefined | null>>;
   step: number;
   nextStep: () => void;
 };
@@ -35,7 +27,9 @@ export const ArticleContextProvider = ({
   const stepExists =
     typeof currentStep === "number" && currentStep >= 0 && currentStep < 4;
   const [step, setStep] = useState(stepExists ? currentStep : 0);
-  const [article, setArticle] = useState(currentArticle);
+  const [article, setArticle] = useState<
+    Awaited<ReturnType<typeof getArticleBySlug>>["data"] | undefined | null
+  >(currentArticle);
 
   const nextStep = () => {
     setStep((prev) => prev + 1);

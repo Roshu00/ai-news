@@ -1,15 +1,11 @@
-import { signOutUser } from "@/actions/auth.actions";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
-import { Badge } from "../ui/badge";
-import { UserAvatar } from "../user-avatar";
+import { Role } from "@prisma/client";
+import Link from "next/link";
 import { Logo } from "./logo";
 import { NavMenu } from "./nav-menu";
-import { NavigationSheet } from "./navigation-sheet";
-import { LogoutButton } from "./logout-button";
-import { Role } from "@prisma/client";
 import { NavUser } from "./nav-user";
-import Link from "next/link";
+import { NavigationSheet } from "./navigation-sheet";
 
 const Navbar = async () => {
   const session = await auth();

@@ -1,7 +1,6 @@
-import React from "react";
-import { CreateArticle } from "./create-article";
 import { prisma } from "@/db/prisma";
 import { ArticleContextProvider } from "./article-context";
+import { CreateArticle } from "./create-article";
 
 const CreateArticlePage = async ({
   params,
