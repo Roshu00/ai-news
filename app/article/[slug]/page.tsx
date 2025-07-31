@@ -4,30 +4,30 @@ import { prisma } from "@/db/prisma";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: Promise<{ slug: string }>;
-// }): Promise<Metadata> {
-//   const { slug } = await params;
-//   const res = await getPublicArticle(slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const res = await getPublicArticle(slug);
 
-//   if (res.success) {
-//     const article = res.data!;
-//     return {
-//       title: article.seoTitle || article.title,
-//       description: article.seoDescription || article.description,
-//       keywords: article.keywords,
-//       openGraph: {
-//         title: article.seoTitle || article.title,
-//         description: article.seoDescription || article.description!,
-//         type: "article",
-//         images: "/api/generate-image/" + article.slug,
-//       },
-//     };
-//   }
-//   return notFound();
-// }
+  if (res.success) {
+    const article = res.data!;
+    return {
+      title: article.seoTitle || article.title,
+      description: article.seoDescription || article.description,
+      keywords: article.keywords,
+      openGraph: {
+        title: article.seoTitle || article.title,
+        description: article.seoDescription || article.description!,
+        type: "article",
+        images: "/api/generate-image/" + article.slug,
+      },
+    };
+  }
+  return notFound();
+}
 
 const Article = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;
