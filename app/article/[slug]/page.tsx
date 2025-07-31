@@ -22,7 +22,7 @@ export async function generateMetadata({
         title: article.seoTitle || article.title,
         description: article.seoDescription || article.description!,
         type: "article",
-        images: "/api/generate-image/" + article.slug,
+        images: "/api/og/" + article.slug,
       },
     };
   }
