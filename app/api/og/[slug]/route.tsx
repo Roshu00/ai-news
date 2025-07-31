@@ -1,10 +1,10 @@
 // app/api/og/[slug]/route.tsx
-import { getArticleBySlug } from "@/actions/article.actions";
+import { getPublicArticle } from "@/actions/article.actions";
 import { formatErrors } from "@/lib/utils";
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export async function GET(
   _req: NextRequest,
@@ -13,7 +13,7 @@ export async function GET(
   try {
     const { slug } = await params;
 
-    const article = await getArticleBySlug(slug);
+    const article = await getPublicArticle(slug);
 
     const title = String(article?.data?.title ?? "Bez naslova");
 
