@@ -4,14 +4,14 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compareSync } from "bcrypt-ts";
 import NextAuth, { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import { authConfig } from "./auth.config";
 export const config = {
   pages: {
     signIn: "/sign-in",
     error: "/sign-in",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
     maxAge: 30 * 24 * 60 * 60,
   },
   adapter: PrismaAdapter(prisma),
@@ -55,6 +55,7 @@ export const config = {
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
     async session({ session, token, user, trigger }: any) {
       // set user id from token
       session.user.id = token.sub;
@@ -89,18 +90,7 @@ export const config = {
 
       return token;
     },
-    async authorized({ request, auth }: any) {
-      // Array of regex we protect
-      const protectedPaths = [/\/admin/, /\/admin\/(.*)/, /\/creator/];
-
-      const { pathname } = request.nextUrl;
-
-      if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
-      if (auth?.role === "creator" && pathname === "/creator") return true;
-
-      return true;
-    },
   },
-} satisfies NextAuthConfig;
+};
 
 export const { handlers, signIn, signOut, auth } = NextAuth(config);
