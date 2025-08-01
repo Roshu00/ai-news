@@ -12,9 +12,13 @@ const CreatorPage = async () => {
   const session = await auth();
   const articles = await prisma.article.findMany({
     where: { userId: session?.user.id },
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       category: true,
       user: true,
+      thumbnail: true,
     },
   });
 
@@ -34,7 +38,7 @@ const CreatorPage = async () => {
               <CardHeader className="p-2">
                 <div className="aspect-video bg-muted rounded-lg w-full relative overflow-hidden">
                   <Image
-                    src={"/api/og/" + article.slug}
+                    src={article.thumbnail?.url || "/api/og/" + article.slug}
                     alt={article.title}
                     fill
                     className="object-cover"
@@ -57,9 +61,6 @@ const CreatorPage = async () => {
                   {article.user && (
                     <div className="flex items-center gap-2">
                       <UserAvatar user={article.user} />
-                      <span className="text-muted-foreground font-semibold">
-                        {article.user?.name}
-                      </span>
                     </div>
                   )}
 

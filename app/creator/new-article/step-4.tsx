@@ -12,6 +12,7 @@ import z from "zod";
 import { KeywordInput } from "./keyword-input";
 import { useArticleContext } from "./article-context";
 import { useRouter } from "next/navigation";
+import UploadMedia from "@/components/media-upload";
 
 // This step is initial article creation
 // After this step is completed the article is created in DB as draft!
@@ -45,6 +46,7 @@ export const StepFour = () => {
   return (
     <Form {...form}>
       <form className="space-y-4" onSubmit={form.handleSubmit(submitForm)}>
+        <UploadMedia />
         <FormInput control={form.control} name="seoTitle" label="Naslov" />
         <FormTextarea
           control={form.control}

@@ -45,6 +45,7 @@ export const getArticleBySlug = async (slug: string) => {
       include: {
         user: true,
         category: true,
+        thumbnail: true,
       },
     });
     return formatSuccess("Article found!", article);
@@ -67,6 +68,7 @@ export const createArticleStepOne = async (
       include: {
         user: true,
         category: true,
+        thumbnail: true,
       },
     });
 
@@ -97,6 +99,7 @@ export const updateArticle = async (
       include: {
         user: true,
         category: true,
+        thumbnail: true,
       },
     });
     return formatSuccess("Article is updated", article);
@@ -132,6 +135,7 @@ export const getPublicArticle = async (slug: string) => {
       include: {
         user: true,
         category: true,
+        thumbnail: true,
       },
     });
     return formatSuccess("Article found!", article);

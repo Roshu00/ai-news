@@ -1,5 +1,17 @@
 "use client";
-import React from "react";
+import { signOutUser } from "@/actions/auth.actions";
+import {
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  ImageIcon,
+  LogOut,
+  PenLineIcon,
+} from "lucide-react";
+import { User } from "next-auth";
+import Link from "next/link";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,21 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  PenLineIcon,
-  Sparkles,
-} from "lucide-react";
-import { User } from "next-auth";
 import { UserAvatar } from "../user-avatar";
-import { signOutUser } from "@/actions/auth.actions";
-import Link from "next/link";
 
 export const NavUser = ({ user }: { user: User }) => {
   return (
@@ -65,9 +63,11 @@ export const NavUser = ({ user }: { user: User }) => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <BadgeCheck />
-            Account
+          <DropdownMenuItem asChild>
+            <Link href="/creator/gallery">
+              <ImageIcon />
+              Galerija
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <CreditCard />

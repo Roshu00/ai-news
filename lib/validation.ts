@@ -33,6 +33,7 @@ export const createArticleSchema = z.object({
 });
 
 export const createArticleStepOneSchema = z.object({
+  imageId: z.string().nullable().optional(),
   title: z.string().min(1, "Naslov je obavezno polje."),
 });
 

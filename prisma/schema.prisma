@@ -44,6 +44,7 @@ model User {
   Session   Session[]
   Favorite  Favorite[]
   Article   Article[]
+  Image     Image[]
 }
 
 model Account {
@@ -94,6 +95,7 @@ model Article {
   imageUrl       String?
   language       String?       @default("sr")
   readingTime    Int?
+  thumbnail      Image?        @relation(fields: [imageId], references: [id])
   seoTitle       String?
   seoDescription String?
   keywords       String[]
@@ -108,6 +110,7 @@ model Article {
   user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   favoritedBy Favorite[]
+  imageId     String?
 }
 
 model Favorite {
@@ -130,4 +133,13 @@ model Category {
   updatedAt DateTime @updatedAt @db.Timestamp(6)
 
   articles Article[]
+}
+
+model Image {
+  id        String    @id @default(cuid())
+  url       String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String    @db.Uuid
+  createdAt DateTime  @default(now())
+  Article   Article[]
 }
