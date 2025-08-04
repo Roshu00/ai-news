@@ -5,6 +5,7 @@ import { Badge } from "./ui/badge";
 import { ArticleStatus, User } from "@prisma/client";
 import { UserAvatar } from "./user-avatar";
 import { User as PrismaUser } from "@prisma/client";
+import { Session } from "next-auth";
 
 export const ArticleCard = ({
   article,
@@ -13,9 +14,10 @@ export const ArticleCard = ({
     status: ArticleStatus;
     title: string;
     category?: string;
-    user: User | PrismaUser;
+    user: User | PrismaUser | Session["user"];
     createdAt: Date;
     description: string;
+    imageUrl?: string | null;
   }>;
 }) => {
   const dateCreated = article.createdAt || new Date();
@@ -24,7 +26,7 @@ export const ArticleCard = ({
       <CardHeader className="p-2">
         <div className="aspect-video bg-muted rounded-lg w-full relative overflow-hidden">
           <Image
-            src={"/placeholder.webp"}
+            src={article.imageUrl || "/placeholder.webp"}
             alt={article.title || "article title"}
             fill
             className="object-cover"

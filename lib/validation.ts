@@ -32,11 +32,28 @@ export const createArticleSchema = z.object({
   categoryId: z.uuid({ message: "ID kategorije mora biti validan UUID." }),
 });
 
+export const createArticleStepOneUISchema = z.object({
+  image: z
+    .object({
+      id: z.string(),
+      url: z.string(),
+    })
+    .nullable()
+    .optional(),
+  title: z.string().min(1, "Naslov je obavezno polje."),
+  description: z.string().min(1, "Opis je obavezno polje."),
+  category: z.object({
+    id: z.string().min(1, "Kategorija je obavezno polje."),
+    name: z.string().min(1, "Kategorija je obavezno polje."),
+  }),
+});
+
 export const createArticleStepOneSchema = z.object({
   imageId: z.string().nullable().optional(),
   title: z.string().min(1, "Naslov je obavezno polje."),
+  description: z.string().min(1, "Opis je obavezno polje."),
+  categoryId: z.string().min(1, "Kategorija je obavezno polje."),
 });
-
 export const createArticleStepTwoSchema = z.object({
   description: z.string().min(1, "Opis je obavezno polje."),
   categoryId: z.string().min(1, "Kategorija je obavezno polje."),

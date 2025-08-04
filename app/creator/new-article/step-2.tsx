@@ -12,11 +12,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { useArticleContext } from "./article-context";
+import { ArticleCreationStep } from "@prisma/client";
 
 // This step is initial article basic information
 
 export const StepTwo = () => {
-  const { article, setArticle, nextStep } = useArticleContext();
+  const { article, setArticle, setStep } = useArticleContext();
   const form = useForm<z.infer<typeof createArticleStepTwoSchema>>({
     resolver: zodResolver(createArticleStepTwoSchema),
     defaultValues: {
@@ -28,11 +29,15 @@ export const StepTwo = () => {
   const submitForm = async (
     data: z.infer<typeof createArticleStepTwoSchema>
   ) => {
-    const res = await updateArticle(article!.slug, data);
+    const res = await updateArticle(
+      article!.slug,
+      data,
+      ArticleCreationStep.SEO
+    );
     if (res.success) {
       toast.success(res.message);
       setArticle(res.data!);
-      nextStep();
+      setStep(res.data!.step);
     } else {
       toast.error(res.message);
     }

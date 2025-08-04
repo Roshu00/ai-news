@@ -1,5 +1,7 @@
+import { ArticleCreationStep } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { STEP_ORDER } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -58,3 +60,6 @@ export const formatError = <T = null>(err: any, data?: T) =>
     message: formatErrors(err),
     data,
   });
+
+export const getStepIndex = (step: ArticleCreationStep) =>
+  STEP_ORDER.indexOf(step);

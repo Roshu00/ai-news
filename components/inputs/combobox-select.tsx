@@ -95,7 +95,8 @@ export function FormComboboxSelect({
                   type="button"
                 >
                   {field.value
-                    ? options.find((option) => option.id === field.value)?.name
+                    ? options.find((option) => option.id === field.value?.id)
+                        ?.name
                     : "Select category..."}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
@@ -126,7 +127,7 @@ export function FormComboboxSelect({
                           setValue(currentValue === value ? "" : currentValue);
                           setInputValue("");
                           setOpen(false);
-                          setFormValue(name, option.id);
+                          setFormValue(name, option);
                         }}
                       >
                         {option.name}

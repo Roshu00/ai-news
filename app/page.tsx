@@ -17,6 +17,7 @@ export default async function Home() {
     include: {
       category: true,
       user: true,
+      thumbnail: true,
     },
   });
 
@@ -31,7 +32,7 @@ export default async function Home() {
                 <CardHeader className="p-2">
                   <div className="aspect-video bg-muted rounded-lg w-full relative overflow-hidden">
                     <Image
-                      src={"/placeholder.webp"}
+                      src={article.thumbnail?.url || "/api/og/" + article.slug}
                       alt={article.title}
                       fill
                       className="object-cover"
@@ -45,14 +46,7 @@ export default async function Home() {
                     {article.title}
                   </h3>
                   <div className="mt-6 flex items-center justify-between">
-                    {article.user && (
-                      <div className="flex items-center gap-2">
-                        <UserAvatar user={article.user} />
-                        <span className="text-muted-foreground font-semibold">
-                          {article.user?.name}
-                        </span>
-                      </div>
-                    )}
+                    {article.user && <UserAvatar user={article.user} />}
 
                     <span className="text-muted-foreground text-sm">
                       {article.createdAt.getDate()}.

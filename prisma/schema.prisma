@@ -27,6 +27,13 @@ enum ArticleStatus {
   DELETED
 }
 
+enum ArticleCreationStep {
+  CARD
+  CONTENT
+  SEO
+  FINISHED
+}
+
 model User {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String    @default("NO_NAME")
@@ -87,23 +94,24 @@ model VerificationToken {
 }
 
 model Article {
-  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId         String?       @db.Uuid
+  id             String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  step           ArticleCreationStep @default(CARD)
+  userId         String?             @db.Uuid
   title          String
   description    String?
   content        String?
   imageUrl       String?
-  language       String?       @default("sr")
+  language       String?             @default("sr")
   readingTime    Int?
-  thumbnail      Image?        @relation(fields: [imageId], references: [id])
+  thumbnail      Image?              @relation(fields: [imageId], references: [id])
   seoTitle       String?
   seoDescription String?
   keywords       String[]
-  status         ArticleStatus @default(DRAFT)
-  slug           String        @unique
-  publishedAt    DateTime      @default(now()) @db.Timestamp(6)
-  createdAt      DateTime      @default(now()) @db.Timestamp(6)
-  updatedAt      DateTime      @updatedAt @db.Timestamp(6)
+  status         ArticleStatus       @default(DRAFT)
+  slug           String              @unique
+  publishedAt    DateTime            @default(now()) @db.Timestamp(6)
+  createdAt      DateTime            @default(now()) @db.Timestamp(6)
+  updatedAt      DateTime            @updatedAt @db.Timestamp(6)
 
   categoryId String?   @db.Uuid
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)

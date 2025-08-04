@@ -2,6 +2,7 @@
 
 import { prisma } from "@/db/prisma";
 import { auth } from "@/lib/auth";
+import { formatError, formatSuccess, getStepIndex } from "@/lib/utils";
 import {
   createArticleSchema,
   createArticleStepFourthSchema,
@@ -9,16 +10,10 @@ import {
   createArticleStepThreeSchema,
   createArticleStepTwoSchema,
 } from "@/lib/validation";
+import { ArticleCreationStep, ArticleStatus } from "@prisma/client";
 import slugify from "slugify";
 import z from "zod";
 import { requireUser } from "./helpers.action";
-import {
-  formatError,
-  formatErrors,
-  formatResponse,
-  formatSuccess,
-} from "@/lib/utils";
-import { ArticleStatus } from "@prisma/client";
 
 export const createArticle = async (
   data: z.infer<typeof createArticleSchema>
@@ -64,6 +59,7 @@ export const createArticleStepOne = async (
         slug: slugify(data.title),
         ...data,
         userId: user.id,
+        step: ArticleCreationStep.CONTENT,
       },
       include: {
         user: true,
@@ -84,10 +80,27 @@ export const updateArticle = async (
     | z.infer<typeof createArticleStepOneSchema>
     | z.infer<typeof createArticleStepTwoSchema>
     | z.infer<typeof createArticleStepFourthSchema>
-    | z.infer<typeof createArticleStepThreeSchema>
+    | z.infer<typeof createArticleStepThreeSchema>,
+  incomingStep?: ArticleCreationStep
 ) => {
   try {
     const user = await requireUser();
+    const existing = await prisma.article.findUnique({
+      where: {
+        slug,
+        userId: user.id,
+      },
+      select: {
+        step: true,
+      },
+    });
+
+    if (!existing) {
+      throw new Error("Article not found");
+    }
+    const shouldUpdateStep = incomingStep
+      ? getStepIndex(incomingStep) > getStepIndex(existing.step)
+      : false;
     const article = await prisma.article.update({
       where: {
         slug,
@@ -95,6 +108,7 @@ export const updateArticle = async (
       },
       data: {
         ...data,
+        ...(shouldUpdateStep && incomingStep ? { step: incomingStep } : {}),
       },
       include: {
         user: true,
@@ -141,5 +155,25 @@ export const getPublicArticle = async (slug: string) => {
     return formatSuccess("Article found!", article);
   } catch (err) {
     return formatError(err, null);
+  }
+};
+
+export const deleteArticle = async (id: string) => {
+  try {
+    const user = await requireUser();
+    const article = await prisma.article.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!article) throw Error("Article not found");
+    await prisma.article.delete({
+      where: {
+        id: article.id,
+      },
+    });
+    return formatSuccess("Clanak uspesno obrisan.");
+  } catch (err) {
+    return formatError(err);
   }
 };

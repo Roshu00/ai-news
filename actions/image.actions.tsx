@@ -50,7 +50,7 @@ export const deleteImage = async (imageId: string) => {
 
     const usage = await prisma.article.findFirst({
       where: {
-        thumbnailUrl: {
+        thumbnail: {
           is: {
             id: image.id,
           },
