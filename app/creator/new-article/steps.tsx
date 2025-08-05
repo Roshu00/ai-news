@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn, isGraterStep } from "@/lib/utils";
 import React from "react";
 import { useArticleContext } from "./article-context";
 import { ArticleCreationStep } from "@prisma/client";
 
 export const Steps = ({ steps }: { steps: ArticleCreationStep[] }) => {
-  const { step, setStep } = useArticleContext();
+  const { step, setStep, article } = useArticleContext();
   return (
     <div className="flex flex-between flex-col md:flex-row space-x-2 space-y-2 mb-10 items-center w-full">
       {steps.map((s, index) => (
@@ -12,8 +12,12 @@ export const Steps = ({ steps }: { steps: ArticleCreationStep[] }) => {
           <div
             className={cn(
               "p-2 rounded-full text-center text-sm flex-1",
-              step === s ? "bg-secondary" : ""
+              step === s ? "bg-secondary" : "",
+              isGraterStep(s, article?.step || ArticleCreationStep.CARD)
+                ? "text-muted-foreground"
+                : ""
             )}
+            aria-disabled
             onClick={() => {
               setStep(s);
             }}

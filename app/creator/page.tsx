@@ -53,12 +53,10 @@ const CreatorPage = async () => {
                   ? "DRAFT"
                   : article.category?.name}
               </Badge>
-
               <h3 className="mt-4 text-[1.35rem] font-semibold tracking-tight">
                 {article.title}
               </h3>
               <p>{article.description}</p>
-
               <div className="mt-6 flex items-center justify-between">
                 {article.user && (
                   <div className="flex items-center gap-2">
@@ -71,21 +69,19 @@ const CreatorPage = async () => {
                   {article.createdAt.getFullYear()}
                 </span>
               </div>
-              {article.step !== ArticleCreationStep.FINISHED && (
-                <div className="flex gap-4">
-                  <Button className="mt-4 w-full" asChild>
-                    <Link href={`/creator/article/${article.slug}`}>
-                      Nastavi {article.step}
-                    </Link>
-                  </Button>
+              <div className="flex gap-4">
+                <Button className="mt-4 w-full" asChild>
+                  <Link href={`/creator/article/${article.slug}`}>
+                    Nastavi {article.step}
+                  </Link>
+                </Button>
 
-                  <DeleteDialog id={article.id} action={deleteArticle}>
-                    <Button className="mt-4 w-full" variant="destructive">
-                      Izbrisi
-                    </Button>
-                  </DeleteDialog>
-                </div>
-              )}
+                <DeleteDialog id={article.id} action={deleteArticle}>
+                  <Button className="mt-4 w-full" variant="destructive">
+                    Izbrisi
+                  </Button>
+                </DeleteDialog>
+              </div>
             </CardContent>
           </Card>
         ))}

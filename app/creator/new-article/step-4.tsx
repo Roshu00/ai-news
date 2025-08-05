@@ -1,17 +1,14 @@
 "use client";
-import { publishArticle, updateArticle } from "@/actions/article.actions";
-import { FormInput } from "@/components/inputs/classic-input";
-import { FormTextarea } from "@/components/inputs/classic-textarea";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { updateArticle } from "@/actions/article.actions";
+import ArticleClient from "@/components/article-full-client";
 import { createArticleStepFourthSchema } from "@/lib/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { useArticleContext } from "./article-context";
-import { KeywordInput } from "./keyword-input";
+import { Button } from "@/components/ui/button";
+import { ArticleCreationStep } from "@prisma/client";
+import { PreviewDropdown } from "./preview-dropdown";
 
 // This step is initial article creation
 // After this step is completed the article is created in DB as draft!
@@ -19,14 +16,6 @@ import { KeywordInput } from "./keyword-input";
 export const StepFour = () => {
   const router = useRouter();
   const { article, setArticle, setStep } = useArticleContext();
-  const form = useForm<z.infer<typeof createArticleStepFourthSchema>>({
-    resolver: zodResolver(createArticleStepFourthSchema),
-    defaultValues: {
-      seoTitle: article!.seoTitle || "",
-      seoDescription: article!.seoDescription || "",
-      keywords: article!.keywords || [],
-    },
-  });
 
   const submitForm = async (
     data: z.infer<typeof createArticleStepFourthSchema>
@@ -43,21 +32,27 @@ export const StepFour = () => {
   };
 
   return (
-    <Form {...form}>
-      <form className="space-y-4" onSubmit={form.handleSubmit(submitForm)}>
-        <FormInput control={form.control} name="seoTitle" label="Naslov" />
-        <FormTextarea
-          control={form.control}
-          name="seoDescription"
-          label="Opis"
-        />
-        <KeywordInput
-          control={form.control}
-          values={form.getValues(`keywords`)}
-        />
+    <>
+      <div className="sticky w-full top-0 z-10">
+        <div className="w-full p-4 bg-green-50 border border-green-200 text-green-800">
+          <div className="max-w-screen-xl mx-auto flex justify-between items-center">
+            <div>
+              <p className="font-medium text-green-800">
+                Završili ste sve korake za kreiranje članka.
+              </p>
+              <p className="text-green-700">
+                Sledeći korak je da pošaljete članak na monetizaciju.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button>Pošalji na monetizaciju</Button>
+              <PreviewDropdown />
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <Button>Sledeci korak</Button>
-      </form>
-    </Form>
+      <ArticleClient article={article} />
+    </>
   );
 };

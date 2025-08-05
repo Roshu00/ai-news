@@ -2,7 +2,12 @@
 
 import { prisma } from "@/db/prisma";
 import { auth } from "@/lib/auth";
-import { formatError, formatSuccess, getStepIndex } from "@/lib/utils";
+import {
+  formatError,
+  formatSuccess,
+  getStepIndex,
+  isGraterStep,
+} from "@/lib/utils";
 import {
   createArticleSchema,
   createArticleStepFourthSchema,
@@ -98,9 +103,8 @@ export const updateArticle = async (
     if (!existing) {
       throw new Error("Article not found");
     }
-    const shouldUpdateStep = incomingStep
-      ? getStepIndex(incomingStep) > getStepIndex(existing.step)
-      : false;
+    const shouldUpdateStep =
+      incomingStep && isGraterStep(incomingStep, existing.step);
     const article = await prisma.article.update({
       where: {
         slug,

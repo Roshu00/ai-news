@@ -24,12 +24,19 @@ const RenderStep = ({ step }: { step: ArticleCreationStep }) => {
 
 export const CreateArticle = () => {
   const { step } = useArticleContext();
+
+  if (step === ArticleCreationStep.FINISHED)
+    return (
+      <>
+        <StepFour />
+      </>
+    );
+
   return (
     <div className="max-w-screen-xl mx-auto py-16 px-6 xl:px-0 flex flex-col items-center">
       <Steps
         steps={["CARD", "CONTENT", "SEO", "FINISHED"] as ArticleCreationStep[]}
       />
-
       <RenderStep step={step} />
     </div>
   );

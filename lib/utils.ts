@@ -63,3 +63,9 @@ export const formatError = <T = null>(err: any, data?: T) =>
 
 export const getStepIndex = (step: ArticleCreationStep) =>
   STEP_ORDER.indexOf(step);
+
+export const isGraterStep = (
+  incomingStep: ArticleCreationStep,
+  currentStep: ArticleCreationStep
+) =>
+  incomingStep ? getStepIndex(incomingStep) > getStepIndex(currentStep) : false;

@@ -141,7 +141,7 @@ export const StepOne = () => {
             title: form.watch("title"),
             imageUrl: form.watch("image")?.url,
             user: session!.user,
-            category: form.watch("category.name"),
+            category: form.watch("category")?.name,
             description: form.watch("description"),
           }}
         />

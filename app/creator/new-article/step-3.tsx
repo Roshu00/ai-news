@@ -1,51 +1,80 @@
 "use client";
 import { updateArticle } from "@/actions/article.actions";
-
-import { FormMdInput } from "@/components/inputs/md-input";
+import { FormInput } from "@/components/inputs/classic-input";
+import { FormTextarea } from "@/components/inputs/classic-textarea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { createArticleStepThreeSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { useArticleContext } from "./article-context";
-import { ArticleCreationStep } from "@prisma/client";
+import { KeywordInput } from "./keyword-input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// This step is article content
+// This step is initial article creation
+// After this step is completed the article is created in DB as draft!
 
 export const StepThree = () => {
+  const router = useRouter();
   const { article, setArticle, setStep } = useArticleContext();
   const form = useForm<z.infer<typeof createArticleStepThreeSchema>>({
     resolver: zodResolver(createArticleStepThreeSchema),
     defaultValues: {
-      content: article?.content || "",
+      seoTitle: article!.seoTitle || "",
+      seoDescription: article!.seoDescription || "",
+      keywords: article!.keywords || [],
     },
   });
 
   const submitForm = async (
     data: z.infer<typeof createArticleStepThreeSchema>
   ) => {
-    const res = await updateArticle(
-      article!.slug,
-      data,
-      ArticleCreationStep.FINISHED
-    );
+    const res = await updateArticle(article!.slug, data);
     if (res.success) {
       toast.success(res.message);
       setArticle(res.data!);
       setStep(res.data!.step);
+      router.push(`/article/${res.data!.slug}`);
     } else {
       toast.error(res.message);
     }
   };
 
   return (
-    <Form {...form}>
-      <form className="space-y-4" onSubmit={form.handleSubmit(submitForm)}>
-        <FormMdInput control={form.control} name="content" />
-        <Button>Sledeci korak</Button>
-      </form>
-    </Form>
+    <div className="gap-4 w-full max-w-xl">
+      <Card>
+        <CardHeader>
+          <CardTitle>Osnovne informacije</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              className="space-y-4"
+              onSubmit={form.handleSubmit(submitForm)}
+            >
+              <FormInput
+                control={form.control}
+                name="seoTitle"
+                label="Naslov"
+              />
+              <FormTextarea
+                control={form.control}
+                name="seoDescription"
+                label="Opis"
+              />
+              <KeywordInput
+                control={form.control}
+                values={form.getValues(`keywords`)}
+              />
+
+              <Button>Sledeci korak</Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };

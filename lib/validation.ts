@@ -54,15 +54,17 @@ export const createArticleStepOneSchema = z.object({
   description: z.string().min(1, "Opis je obavezno polje."),
   categoryId: z.string().min(1, "Kategorija je obavezno polje."),
 });
-export const createArticleStepTwoSchema = z.object({
+
+export const createArticleStepFourthSchema = z.object({
   description: z.string().min(1, "Opis je obavezno polje."),
   categoryId: z.string().min(1, "Kategorija je obavezno polje."),
 });
 
-export const createArticleStepThreeSchema = z.object({
+export const createArticleStepTwoSchema = z.object({
   content: z.string().min(1, "Sadrzaj je obavezno polje."),
 });
-export const createArticleStepFourthSchema = z.object({
+
+export const createArticleStepThreeSchema = z.object({
   seoTitle: z.string().min(1, "Sadrzaj je obavezno polje."),
   seoDescription: z.string().min(1, "Sadrzaj je obavezno polje."),
   keywords: z.array(z.string()).min(1),

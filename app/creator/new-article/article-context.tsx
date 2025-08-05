@@ -1,14 +1,21 @@
 "use client";
 import { getArticleBySlug } from "@/actions/article.actions";
 import { useSearchParamsState } from "@/hooks/useSearchParamsState";
+import { isGraterStep } from "@/lib/utils";
 import { ArticleCreationStep } from "@prisma/client";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 export type DataType = Awaited<ReturnType<typeof getArticleBySlug>>["data"];
 
 type ArticleContextType = {
   article: DataType | undefined | null;
-  setStep: React.Dispatch<React.SetStateAction<ArticleCreationStep>>;
+  setStep: (incomingStep: ArticleCreationStep) => void;
   setArticle: React.Dispatch<React.SetStateAction<DataType | undefined | null>>;
   step: ArticleCreationStep;
 };
@@ -29,8 +36,21 @@ export const ArticleContextProvider = ({
     Awaited<ReturnType<typeof getArticleBySlug>>["data"] | undefined | null
   >(currentArticle);
 
+  const setActiveStep = (incomingStep: ArticleCreationStep) => {
+    console.log(
+      incomingStep,
+      article?.step,
+      isGraterStep(incomingStep, article?.step || "CARD")
+    );
+    if (article?.step && !isGraterStep(incomingStep, article.step)) {
+      setStep(incomingStep);
+    }
+  };
+
   return (
-    <ArticleContext.Provider value={{ article, step, setStep, setArticle }}>
+    <ArticleContext.Provider
+      value={{ article, step, setStep: setActiveStep, setArticle }}
+    >
       {children}
     </ArticleContext.Provider>
   );
